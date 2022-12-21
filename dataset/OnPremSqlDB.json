@@ -1,0 +1,17 @@
+{
+	"name": "OnPremSqlDB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServerOnPrem",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DEPARTMENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

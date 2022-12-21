@@ -1,0 +1,49 @@
+{
+	"name": "Emp_blob",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SourceLink",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Query 1.csv",
+				"container": "sourcedemo"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Employee_Id",
+				"type": "String"
+			},
+			{
+				"name": "Last_Name",
+				"type": "String"
+			},
+			{
+				"name": "First_Name",
+				"type": "String"
+			},
+			{
+				"name": "Middle_Name",
+				"type": "String"
+			},
+			{
+				"name": "Hire_Date",
+				"type": "String"
+			},
+			{
+				"name": "Department_Id",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
