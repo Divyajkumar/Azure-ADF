@@ -1,0 +1,102 @@
+{
+	"name": "df_errorhandle",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SourceDataset",
+						"type": "DatasetReference"
+					},
+					"name": "SalesData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlLink",
+						"type": "DatasetReference"
+					},
+					"name": "ErrorSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSalesDataset",
+						"type": "DatasetReference"
+					},
+					"name": "GoodSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "split1"
+				},
+				{
+					"name": "FileNameCol"
+				},
+				{
+					"name": "FileNamegoodCol"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          salesDate as string,",
+				"          salesItem as string,",
+				"          Country as string,",
+				"          Quantity as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SalesData",
+				"SalesData split(isNull(toDate(salesDate, 'dd-MMM-yyyy')),",
+				"     disjoint: false) ~> split1@(ErrorRows, GoodRows)",
+				"split1@ErrorRows derive(FileName = 'Sales.csv') ~> FileNameCol",
+				"split1@GoodRows derive(FileName = 'Sales.csv',",
+				"          salesDate = toDate(salesDate,'dd-MMM-yyyy'),",
+				"          Quantity = toInteger(Quantity)) ~> FileNamegoodCol",
+				"FileNameCol sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          salesDate,",
+				"          salesItem,",
+				"          Country,",
+				"          Quantity,",
+				"          FileName",
+				"     )) ~> ErrorSink",
+				"FileNamegoodCol sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          salesDate as date,",
+				"          salesItem as string,",
+				"          Country as string,",
+				"          Quantity as integer,",
+				"          FileName as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          salesDate,",
+				"          salesItem,",
+				"          Country,",
+				"          Quantity,",
+				"          FileName",
+				"     )) ~> GoodSink"
+			]
+		}
+	}
+}
