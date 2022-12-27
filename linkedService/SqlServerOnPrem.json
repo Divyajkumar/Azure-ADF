@@ -1,0 +1,17 @@
+{
+	"name": "SqlServerOnPrem",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=DESKTOP-3CDFAUG\\DIVYA;initial catalog=CASE_STUDY",
+			"userName": "DESKTOP-3CDFAUG\\Iniya",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI2NTBjMmI2Yi1iZTY4LTRkNTgtYmIwZS1iOGMyMzczM2U3NzEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IRSqlServer",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
